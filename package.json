@@ -1,5 +1,5 @@
 {
-  "name": "ic-config",
+  "name": "config",
   "version": "1.0.2",
   "description": "Common configuration utilities and helpers for applications",
   "main": "index.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@bitbucket.org:intuitivcloud/ic-config.git"
+    "url": "git@github.com:intuitivcloud/config.git"
   },
   "keywords": [
     "config",
