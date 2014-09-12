@@ -56,6 +56,8 @@ describe('Configurator', function () {
       }, done);
     });
 
+    it('must replace environment placeholders');
+
     it('must memoize configrations already loaded before returning them to caller');
 
   });
