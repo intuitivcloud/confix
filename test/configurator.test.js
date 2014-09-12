@@ -1,13 +1,19 @@
 'use strict';
 
-var expect = require('chai').expect,
-    configurator = require('..'),
-    context = describe;
+var _ = require('lodash'),
+    expect = require('chai').expect,
+    context = describe,
+    configurator;
+
+process.env.PERSON = 'Jon Doe';
+process.env.CFG_URL = 'http://localhost:3753';
+process.env.TIMEOUT = 4000;
+
+configurator =  require('..');
 
 describe('Configurator', function () {
 
   context('when not initialized with a base configuration path', function () {
-
     before(function () {
       configurator.reset();
     });
@@ -17,7 +23,6 @@ describe('Configurator', function () {
         configurator.getConfig('server');
       }).to.throw('Configurator is not initialized');
     });
-
   });
 
   context('when initialized with a base configuration path', function () {
@@ -56,7 +61,18 @@ describe('Configurator', function () {
       }, done);
     });
 
-    it('must replace environment placeholders');
+    it('must replace all placeholders in string values with environment variables', function (done) {
+      var message = 'Hello Jon Doe!',
+          url = 'http://localhost:3753';
+
+      configurator.getConfig('conf3').then(function (config) {
+        expect(config.get('message')).to.be.eq(message);
+        expect(config.get('cfg1').url).to.be.eq(url);
+        expect(config.get('cfg1.options.timeout')).to.be.eq('4000');
+
+        done();
+      }, done);
+    });
 
     it('must memoize configrations already loaded before returning them to caller');
 

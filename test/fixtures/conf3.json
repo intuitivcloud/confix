@@ -1,0 +1,9 @@
+{
+  "message": "Hello {PERSON}!",
+  "cfg1": {
+    "url": "{CFG_URL}",
+    "options": {
+      "timeout": "{TIMEOUT}"
+    }
+  }
+}
