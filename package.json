@@ -1,5 +1,5 @@
 {
-  "name": "config",
+  "name": "ic-config",
   "version": "1.0.2",
   "description": "Common configuration utilities and helpers for applications",
   "main": "index.js",
