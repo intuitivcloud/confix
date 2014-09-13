@@ -69,7 +69,7 @@ describe('Configurator', function () {
         expect(err).to.be.null;
 
         expect(config.conf2.baseName).to.be.eq('conf2');
-        expect(config.conf2.get('a.b.c')).to.be.eq('Horray!');
+        expect(config.conf2.at('a.b.c')).to.be.eq('Horray!');
 
         done();
       });
@@ -81,7 +81,7 @@ describe('Configurator', function () {
 
         expect(config.conf1.baseName).to.be.eq('conf1');
         expect(config.conf2.baseName).to.be.eq('conf2');
-        expect(config.conf2.get('a.b.c')).to.be.eq('Horray!');
+        expect(config.conf2.at('a.b.c')).to.be.eq('Horray!');
 
         done();
       });
@@ -94,9 +94,9 @@ describe('Configurator', function () {
       configurator.getConfig('conf3', function (err, config) {
         expect(err).to.be.null;
 
-        expect(config.conf3.get('message')).to.be.eq(message);
-        expect(config.conf3.get('cfg1').url).to.be.eq(url);
-        expect(config.conf3.get('cfg1.options.timeout')).to.be.eq('4000');
+        expect(config.conf3.message).to.be.eq(message);
+        expect(config.conf3.cfg1.url).to.be.eq(url);
+        expect(config.conf3.at('cfg1.options.timeout')).to.be.eq('4000');
 
         done();
       });
