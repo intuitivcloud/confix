@@ -16,7 +16,7 @@
     "utils",
     "helpers"
   ],
-  "author": "codematix <codematix@intuitivcloud.com>",
+  "author": "intuitivcloud Engineering Team <engineering@intuitivcloud.com>",
   "license": "MIT",
   "dependencies": {
     "async": "^0.9.0",
