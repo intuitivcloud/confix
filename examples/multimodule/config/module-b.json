@@ -1,0 +1,5 @@
+{
+  "name": "module-b",
+  "timeout": 1000,
+  "server": "localhost"
+}
