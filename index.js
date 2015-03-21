@@ -11,10 +11,10 @@ _.mixin(putty.mixins);
 // we'll only support delimiters with format {<placeholder>}
 _.templateSettings.interpolate = /{([\s\S]+?)}/g;
 
-var env = process.env.ENV || 'development',
+var env = process.env.NODE_ENV || 'development',
     machine = process.env.MACHINE,
     envObj = _.merge({}, process.env, {
-      ENV: env
+      NODE_ENV: env
     }),
     configPath, configCache = {};
 
