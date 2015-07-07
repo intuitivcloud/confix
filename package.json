@@ -17,7 +17,7 @@
     "helpers"
   ],
   "author": "intuitivcloud Engineering Team <engineering@intuitivcloud.com>",
-  "license": "MIT",
+  "license": "BSD-3-Clause",
   "dependencies": {
     "lodash": "^3.10.0",
     "putty": "^1.0.1"
