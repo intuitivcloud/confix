@@ -60,45 +60,6 @@ function buildFileList(baseName) {
   ];
 }
 
-function getConfigSingle(baseName, callback) {
-  if (_.isEmpty(baseName)) throw new Error('base name must be specified');
-  if (configCache.hasOwnProperty(baseName))
-    return callback(null, configCache[baseName]);
-
-  async.map(buildFileList(baseName), function (filePath, cb) {
-    fs.readFile(filePath, 'utf8', function (err, data) {
-      var result;
-      // if we have a read error, we ignore and return empty object
-      if (err) return cb(null, {});
-
-      try {
-        result = JSON.parse(data);
-      } catch (e) {
-        return cb(new Error(_.fmt('Malformed configuration file "%s":',
-              path.basename(filePath), e.message)));
-      }
-
-      return cb(null, result);
-    });
-  }, function (err, results) {
-    var configData, config;
-
-    if (err) return callback(err);
-
-    results.unshift({});
-    configData = _.merge.apply(_, results);
-
-    if (_.isEmpty(configData))
-      return callback(new Error(_.fmt(
-          'Unable to find any configuration for \'%s\'', baseName)));
-
-    config = new Configuration(baseName, configData);
-    configCache[baseName] = config;
-
-    callback(null, config);
-  });
-}
-
 exports.init = function (baseConfigPath) {
   configPath = baseConfigPath;
 };
@@ -108,19 +69,50 @@ exports.reset = function () {
   configCache = {};
 };
 
-exports.getConfig = function () {
-  var baseNames = _.arrgs(arguments),
-      callback = _.isFunction(_.last(baseNames)) ? baseNames.pop() : null;
+function getConfigSingle(baseName) {
+  var configs, configData;
 
-  if (!callback) throw new Error('Must invoke with a callback');
+  if (configCache[baseName])
+    return configCache[baseName];
+
+  configs = _.map(buildFileList(baseName), function (filePath) {
+      var fileData;
+      try {
+        fileData = fs.readFileSync(filePath, 'utf8');
+      } catch (ex) {
+        return {};
+      }
+
+      try {
+        return JSON.parse(fileData);
+      } catch (e) {
+        throw new Error(_.fmt('Malformed configuration file "%s":',
+              path.basename(filePath), e.message));
+      }
+    });
+
+  configs.unshift({});
+  configData = _.merge.apply(_, configs);
+
+  if (_.isEmpty(configData))
+    throw new Error(_.fmt(
+      'Unable to find any configuration for \'%s\'', baseName));
+
+  return (configCache[baseName] = new Configuration(baseName, configData));
+}
+
+exports.getConfig = function () {
+  var baseNames = _.arrgs(arguments);
+
   if (_.isEmpty(configPath)) throw new Error('Configurator is not initialized');
   if (_.isEmpty(baseNames)) throw new Error('one or more base names must be specified');
 
-  async.map(baseNames, getConfigSingle, function (err, results) {
-    if (err) return callback(err);
-    callback(null, _.reduce(results, function (r, cfg) {
+  return _.chain(baseNames)
+    .map(getConfigSingle)
+    .reduce(function (r, cfg) {
       r[cfg.baseName] = cfg;
       return r;
-    }, {}));
-  });
+    }, {})
+    .value();
 };
+
