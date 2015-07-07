@@ -3,7 +3,6 @@
 var _ = require('lodash'),
     path = require('path'),
     fs = require('fs'),
-    async = require('async'),
     putty = require('putty');
 
 _.mixin(putty.mixins);
@@ -20,8 +19,8 @@ var env = process.env.NODE_ENV || 'development',
 
 function processValue(v) {
   if (_.isString(v))
-    v = _.template(v, envObj);
-  return v;
+    v = _.template(v);
+  return v(envObj);
 }
 
 function transform(obj) {
@@ -44,12 +43,11 @@ function Configuration(baseName, config) {
 
   // all config properties are available as members
   _.merge(this, transform(config));
-
-  // also available using at
-  this.at = function (key) {
-    return _.at(this, key);
-  };
 }
+
+Configuration.prototype.at = function (key) {
+  return _.at(this, key);
+};
 
 function buildFileList(baseName) {
   var cPath = path.resolve(configPath);
