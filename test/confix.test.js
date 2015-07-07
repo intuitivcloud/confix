@@ -46,7 +46,7 @@ describe('Configurator', function () {
     it('must invoke callback with an error if config does not exist', function () {
       expect(function () {
         configurator.getConfig('foo');
-      }).to.throw('Unable to find any configuration for \'foo\'')
+      }).to.throw('Unable to find any configuration for \'foo\'');
     });
 
     it('must invoke callback with an error if one or more config do not exist', function () {
@@ -55,20 +55,20 @@ describe('Configurator', function () {
       }).to.throw('Unable to find any configuration for \'bar\'');
     });
 
-    it('must invoke callback with an error if one or more configs are malformed', function () {
+    it('must return with an error if one or more configs are malformed', function () {
       expect(function () {
         configurator.getConfig('conf1', 'conf4');
       }).to.throw('Malformed configuration file "conf4.json": Unexpected token }');
     });
 
-    it('must invoke callback with the config if found & loaded', function () {
+    it('must return with the config if found & loaded', function () {
       var config = configurator.getConfig('conf2');
 
       expect(config.conf2.baseName).to.be.eq('conf2');
       expect(config.conf2.at('a.b.c')).to.be.eq('Horray!');
     });
 
-    it('must invoke callback with multiple configs if they are found & loaded', function () {
+    it('must return multiple configs if they are found & loaded', function () {
       var config = configurator.getConfig('conf1', 'conf2');
 
       expect(config.conf1.baseName).to.be.eq('conf1');
