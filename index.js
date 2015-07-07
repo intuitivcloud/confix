@@ -19,8 +19,8 @@ var env = process.env.NODE_ENV || 'development',
 
 function processValue(v) {
   if (_.isString(v))
-    v = _.template(v);
-  return v(envObj);
+    v = _.template(v)(envObj);
+  return v;
 }
 
 function transform(obj) {
