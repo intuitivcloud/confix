@@ -2,9 +2,11 @@
 
 var confix = require('../..');
 
+var cfg;
+
 confix.init('./config');
 
-confix.getConfig('module-a', 'module-b', function (err, cfg) {
-  if (err) return console.error('Error reading config', err);
-  console.dir(cfg);
-});
+cfg = confix.getConfig('module-a', 'module-b');
+
+console.dir(cfg);
+
