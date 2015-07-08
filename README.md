@@ -68,6 +68,30 @@ Therefore the `<baseName>.json` file is a good place to put configuration values
 
 In the above example, the `host` configuration key will get a value `localhost` if the `APP_HOST` system environment variable is set to the same.
 
+## Usage
+
+```js
+var confix = require('confix');
+
+var cfg, serverConfig, redisConfig;
+
+// initialize confix to point to the directory containing the configuration files
+confix.init('./config');
+
+// assuming we have server.json, redis.json in our configuration files directory
+serverConfig = confix.getConfig('server');
+redisConfig = confix.getConfig('redis');
+
+// retrieves both server and redis configuration values
+cfg = config.getConfig('server', 'redis');
+
+serverConfig;		// contains all configuration values from server.json
+redisConfig;		// contains all configuration values from redis.json
+
+cfg.server;		// contains all configuration values from server.json
+cfg.redis;		// contains all configuration values from redis.json
+```
+
 ## License
 
 Copyright (c) 2015, intuitivcloud Systems &lt;engineering@intuitivcloud.com&gt;
