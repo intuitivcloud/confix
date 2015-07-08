@@ -64,8 +64,8 @@ describe('Configurator', function () {
     it('must return with the config if found & loaded', function () {
       var config = configurator.getConfig('conf2');
 
-      expect(config.conf2.baseName).to.be.eq('conf2');
-      expect(config.conf2.at('a.b.c')).to.be.eq('Horray!');
+      expect(config.baseName).to.be.eq('conf2');
+      expect(config.at('a.b.c')).to.be.eq('Horray!');
     });
 
     it('must return multiple configs if they are found & loaded', function () {
@@ -81,9 +81,9 @@ describe('Configurator', function () {
           url = 'http://localhost:3753',
           config = configurator.getConfig('conf3');
 
-      expect(config.conf3.message).to.be.eq(message);
-      expect(config.conf3.cfg1.url).to.be.eq(url);
-      expect(config.conf3.at('cfg1.options.timeout')).to.be.eq('4000');
+      expect(config.message).to.be.eq(message);
+      expect(config.cfg1.url).to.be.eq(url);
+      expect(config.at('cfg1.options.timeout')).to.be.eq('4000');
     });
 
   });

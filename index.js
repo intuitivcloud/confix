@@ -108,6 +108,8 @@ exports.getConfig = function () {
   return _.chain(baseNames)
     .map(getConfigSingle)
     .reduce(function (r, cfg) {
+      if (baseNames.length === 1)
+        return cfg;
       r[cfg.baseName] = cfg;
       return r;
     }, {})
