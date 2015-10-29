@@ -26,11 +26,11 @@ function processValue(v) {
 function transform(obj) {
   _.each(obj, function (value, key) {
     if (_.isArray(value))
-      obj[key] = _.map(value, processValue);
+      obj[key] = _.map(value, transform);
     else if (_.isObject(value))
       obj[key] = transform(value);
     else if (_.isFunction(value))
-      return;
+      return value;
     else
       obj[key] = processValue(value);
   });
